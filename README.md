@@ -4,7 +4,7 @@
 ### Secure Auth That Feels Alive
 
 **A full-stack MERN authentication system with JWT sessions, bcrypt-hashed passwords, and role-based access control — wrapped in a glassmorphism UI over full-screen video backgrounds.**
-No plain login form here: a single card handles both sign-in and sign-up, floating over a looping waterfall on the way in and a different scene once you're through the gate.
+No plain login form here: a single card handles both sign-in and sign-up, floating over a looping video on the way in and a different scene once you're through the gate.
 
 [![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
 [![Express](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
@@ -12,6 +12,8 @@ No plain login form here: a single card handles both sign-in and sign-up, floati
 [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
 [![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)](https://vitejs.dev/)
 [![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white)](https://jwt.io/)
+
+**[🌐 Live Demo](https://prodigy-fs-01-brown.vercel.app)** · **[⚙️ Backend API](https://prodigy-fs-01-hpza.onrender.com)**
 
 </div>
 
@@ -55,6 +57,7 @@ Under the hood, it's a properly secured MERN application: passwords are hashed w
 - Mongoose schema validation, unique email constraint, pre-save password hashing hook
 - Environment-variable driven config, `.env` excluded from version control
 - Clean separation of concerns (routes / controllers / models / middleware)
+- Deployed with a production-ready SPA routing setup (`vercel.json` rewrites)
 
 ---
 
@@ -66,6 +69,7 @@ Under the hood, it's a properly secured MERN application: passwords are hashed w
 | **Backend** | Node.js · Express · Mongoose |
 | **Database** | MongoDB (Atlas) |
 | **Auth** | JSON Web Tokens · bcryptjs |
+| **Deployment** | Vercel (frontend) · Render (backend) · MongoDB Atlas (database) |
 
 ---
 
@@ -85,15 +89,17 @@ PRODIGY_FS_01/
     ├── public/
     │   ├── auth-bg.mp4
     │   └── dashboard-bg.mp4
-    └── src/
-        ├── api/axios.js
-        ├── context/AuthContext.jsx
-        ├── components/ProtectedRoute.jsx
-        ├── pages/AuthPage.jsx
-        ├── pages/Dashboard.jsx
-        ├── App.jsx
-        ├── index.css
-        └── main.jsx
+    ├── src/
+    │   ├── api/axios.js
+    │   ├── context/AuthContext.jsx
+    │   ├── components/ProtectedRoute.jsx
+    │   ├── pages/AuthPage.jsx
+    │   ├── pages/Dashboard.jsx
+    │   ├── App.jsx
+    │   ├── index.css
+    │   └── main.jsx
+    ├── vercel.json
+    └── .env.example
 ```
 
 ---
@@ -120,7 +126,7 @@ PRODIGY_FS_01/
 | Frontend — combined auth card, protected route guard | ✅ Done |
 | Glassmorphism UI + video backgrounds | ✅ Done |
 | Responsive layout (mobile → desktop) | ✅ Done |
-| Deployment | ⏳ Optional — not required for this task |
+| Deployment (Vercel + Render) | ✅ Done — live links above |
 
 ---
 
@@ -160,11 +166,25 @@ Log out and back in, then call `/api/protected/admin` with the JWT in the `Autho
 
 ---
 
+## ☁️ Deployment Notes
+
+**Database — MongoDB Atlas**
+Free M0 cluster, database user, and `0.0.0.0/0` network access (required for Render's dynamic IPs).
+
+**Backend — Render**
+Root directory `backend`, build command `npm install`, start command `npm start`, with `MONGO_URI`, `JWT_SECRET`, `JWT_EXPIRES_IN`, and `CLIENT_URL` (no trailing slash) set as environment variables.
+
+**Frontend — Vercel**
+Root directory `frontend`, build command `npm run build`, output directory `dist`, with `VITE_API_URL` pointing at the deployed backend's `/api` route. Includes a `vercel.json` rewrite rule so client-side routes (`/login`, `/dashboard`) don't 404 on direct load or refresh.
+
+> **Note:** the backend is on Render's free tier, which spins down after 15 minutes of inactivity. The first request after idling may take 30–50 seconds to respond — that's expected, not a bug.
+
+---
+
 ## 🔮 Next Steps
 
 1. Add real screenshots of the login card and dashboard
-2. Optional: deploy backend to Render and frontend to Vercel for a live demo link
-3. Optional bonus polish: "forgot password" flow, email verification
+2. Optional bonus polish: "forgot password" flow, email verification
 
 ---
 
